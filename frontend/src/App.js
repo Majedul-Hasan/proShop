@@ -1,0 +1,26 @@
+import React from "react";
+import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+
+//components
+import { Container } from "react-bootstrap";
+import HeaderComponent from "./components/Header";
+import Footer from "./components/Footer";
+import HomeScreen from "./screens/HomeScreen";
+import ProductScreen from "./screens/ProductScreen";
+
+function App() {
+  return (
+    <Router>
+      <HeaderComponent />
+      <main className='py-3'>
+        <Container>
+          <Route exact path='/' component={HomeScreen} />
+          <Route path='/product/:id' component={ProductScreen} />
+        </Container>
+      </main>
+      <Footer />
+    </Router>
+  );
+}
+
+export default App;
