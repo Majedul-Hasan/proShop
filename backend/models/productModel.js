@@ -45,7 +45,7 @@ const productSchema = new Schema(
       type: String,
       require: true,
     },
-    descriptinn: {
+    description: {
       type: String,
       require: true,
     },
