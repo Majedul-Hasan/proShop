@@ -9,6 +9,10 @@ import express from "express";
 import dotenv from "dotenv";
 // import products from "./data/products.js";
 import productRoutes from "./routes/productRoutes.js";
+
+//user route
+import userRoutes from "./routes/userRoutes.js";
+
 // connect to db
 import connectDB from "./config/db.js";
 //error middleware
@@ -17,6 +21,7 @@ const app = express();
 dotenv.config();
 
 connectDB();
+app.use(express.json()); //this allows json to the body
 
 app.get("/", (req, res) => {
   res.send("api is running...");
@@ -30,6 +35,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
+
 //error middleware
 app.use(notFound);
 app.use(errorHandler);
