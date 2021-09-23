@@ -6,13 +6,20 @@ import { composeWithDevTools } from "redux-devtools-extension";
 // reducers
 import rootReducer from "./reducers/rootReducer";
 
-const localStorageItems = localStorage.getItem("cartItems")
+const cartItemsFromLocalStorage = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
 
+const userInfoFromLocalStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
 const INITIAL_STATE = {
   cart: {
-    cartItems: localStorageItems,
+    cartItems: cartItemsFromLocalStorage,
+  },
+  userLogin: {
+    userInfo: userInfoFromLocalStorage,
   },
 };
 
