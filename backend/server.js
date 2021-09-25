@@ -12,6 +12,8 @@ import productRoutes from "./routes/productRoutes.js";
 
 //user route
 import userRoutes from "./routes/userRoutes.js";
+//order route
+import orderRoutes from "./routes/orderRoutes.js";
 
 // connect to db
 import connectDB from "./config/db.js";
@@ -36,6 +38,7 @@ app.use((req, res, next) => {
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/orders", orderRoutes);
 
 //error middleware
 app.use(notFound);

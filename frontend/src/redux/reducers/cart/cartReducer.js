@@ -1,6 +1,9 @@
 import cartActionType from "./cartActionType";
 
-export const cartReducer = (state = { cartItems: [] }, action) => {
+export const cartReducer = (
+  state = { cartItems: [], shippingAddressFromLocalStorage: {} },
+  action
+) => {
   switch (action.type) {
     case cartActionType.CART_ADD_ITEM:
       const item = action.payload;
@@ -24,6 +27,16 @@ export const cartReducer = (state = { cartItems: [] }, action) => {
       return {
         ...state,
         cartItems: state.cartItems.filter((x) => x.product !== action.payload),
+      };
+    case cartActionType.CART_SAVE_SHIPPING_ADDRESS:
+      return {
+        ...state,
+        shippingAddress: action.payload,
+      };
+    case cartActionType.CART_SAVE_PAYMENT_METHOD:
+      return {
+        ...state,
+        paymentMethod: action.payload,
       };
 
     default:
