@@ -22,7 +22,8 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 import PaymentScreen from "./screens/paymentScreen";
-import PlaceOrder from "./screens/PlaceOrderScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
+import OrderScreen from "./screens/orderScreen";
 
 function App() {
   return (
@@ -31,7 +32,8 @@ function App() {
       <HeaderComponent />
       <main className='py-3'>
         <Container>
-          <Route path='/placeorder' component={PlaceOrder} />
+          <Route path='/order/:id' component={OrderScreen} />
+          <Route path='/placeorder' component={PlaceOrderScreen} />
           <Route path='/payment' component={PaymentScreen} />
           <Route path='/shipping' component={ShippingScreen} />
           <Route path='/profile' component={ProfileScreen} />

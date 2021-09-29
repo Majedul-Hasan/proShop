@@ -16,7 +16,7 @@ import CheckOutSteps from "../components/CheckOutSteps";
 import { default as Message } from "../components/ErrorAlerat";
 import { Link } from "react-router-dom";
 
-const ShippingScreen = ({ history }) => {
+const PlaceOrderScreen = ({ history }) => {
   const cart = useSelector((state) => state.cart);
 
   const orderCreate = useSelector((state) => state.orderCreate);
@@ -168,4 +168,4 @@ const ShippingScreen = ({ history }) => {
   );
 };
 
-export default ShippingScreen;
+export default PlaceOrderScreen;

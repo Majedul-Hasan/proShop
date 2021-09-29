@@ -1,4 +1,6 @@
 import userActionType from "../reducers/user/userActionType";
+import orderActionType from "../reducers/order/orderActionType";
+
 import axios from "axios";
 
 export const login = (email, password) => async (dispatch) => {
@@ -33,6 +35,8 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem("userInfo");
   dispatch({ type: userActionType.USER_LOGOUT });
+  dispatch({ type: userActionType.USER_DETAILS_REQUEST });
+  dispatch({ type: orderActionType.ORDER_LIST_MY_RESET });
 };
 
 export const register = (name, email, password) => async (dispatch) => {
