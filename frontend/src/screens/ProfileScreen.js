@@ -10,7 +10,6 @@ import Message from "../components/ErrorAlerat";
 import { getUserDetails, updateUserProfile } from "../redux/actions/userAction";
 
 import { listMyOrders } from "../redux/actions/orderAction";
-import { Link } from "react-router-dom";
 
 const ProfileScreen = ({ history }) => {
   // use useState hook
