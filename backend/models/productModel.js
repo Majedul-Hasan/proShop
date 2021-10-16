@@ -41,7 +41,7 @@ const productSchema = new Schema(
       type: String,
       require: true,
     },
-    catagory: {
+    category: {
       type: String,
       require: true,
     },
@@ -72,7 +72,7 @@ const productSchema = new Schema(
     },
   },
   {
-    timesStammps: true,
+    timestamps: true,
   }
 );
 

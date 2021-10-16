@@ -23,7 +23,9 @@ const userSchema = new Schema(
       default: false,
     },
   },
-  { timesStammps: true }
+  {
+    timestamps: true,
+  }
 );
 // enteredPassword should encrypted and compared with encrypted password
 userSchema.methods.matchPassword = async function (enteredPassword) {
