@@ -1,5 +1,7 @@
 import express from "express";
 
+import { protect, admin } from "../middleware/authMiddleware.js";
+
 // controllers
 import {
   getProductByid,
@@ -7,14 +9,14 @@ import {
   deleteProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 } from "../controllers/productControllers.js";
-
-import { protect, admin } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 // router.get("/", getProducts);
 router.route("/").get(getProducts).post(protect, admin, createProduct);
+router.route("/:id/reviews").post(protect, createProductReview);
 
 // router.get("/:id", getProductByid);
 router

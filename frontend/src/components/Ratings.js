@@ -60,7 +60,8 @@ const Ratings = ({ ratingValue, text, color }) => {
           }></i>
       </span>
       <span className='px-2'>
-        {ratingValue} from {text && text}
+        {" "}
+        {ratingValue} {text && text}
       </span>
     </div>
   );

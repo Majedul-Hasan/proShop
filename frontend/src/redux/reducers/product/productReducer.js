@@ -67,7 +67,7 @@ export const productDeleteReducer = (state = {}, action) => {
       return state;
   }
 };
-/*
+
 export const productCreateReducer = (state = {}, action) => {
   switch (action.type) {
     case productActionType.PRODUCT_CREATE_REQUEST:
@@ -82,7 +82,10 @@ export const productCreateReducer = (state = {}, action) => {
         product: action.payload,
       };
     case productActionType.PRODUCT_CREATE_FAIL:
-      return { loading: false, error: action.payload };
+      return {
+        loading: false,
+        error: action.payload,
+      };
     case productActionType.PRODUCT_CREATE_RESET:
       return {};
 
@@ -90,24 +93,7 @@ export const productCreateReducer = (state = {}, action) => {
       return state;
   }
 };
-*/
 
-export const productCreateReducer = (state = {}, action) => {
-  switch (action.type) {
-    case productActionType.PRODUCT_CREATE_REQUEST:
-      return { loading: true };
-    case productActionType.PRODUCT_CREATE_SUCCESS:
-      return { loading: false, success: true, product: action.payload };
-    case productActionType.PRODUCT_CREATE_FAIL:
-      return { loading: false, error: action.payload };
-    case productActionType.PRODUCT_CREATE_RESET:
-      return {};
-    default:
-      return state;
-  }
-};
-
-/*
 export const productUpdateReducer = (state = { product: {} }, action) => {
   switch (action.type) {
     case productActionType.PRODUCT_UPDATE_REQUEST:
@@ -122,25 +108,42 @@ export const productUpdateReducer = (state = { product: {} }, action) => {
         product: action.payload,
       };
     case productActionType.PRODUCT_UPDATE_FAIL:
-      return { loading: false, error: action.payload };
+      return {
+        loading: false,
+        error: action.payload,
+      };
     case productActionType.PRODUCT_UPDATE_RESET:
-      return { product: {} };
+      return {
+        product: {},
+      };
 
     default:
       return state;
   }
 };
-*/
-export const productUpdateReducer = (state = { product: {} }, action) => {
+
+export const productReviewCreateReducer = (state = {}, action) => {
   switch (action.type) {
-    case productActionType.PRODUCT_UPDATE_REQUEST:
-      return { loading: true };
-    case productActionType.PRODUCT_UPDATE_SUCCESS:
-      return { loading: false, success: true, product: action.payload };
-    case productActionType.PRODUCT_UPDATE_FAIL:
-      return { loading: false, error: action.payload };
-    case productActionType.PRODUCT_UPDATE_RESET:
-      return { product: {} };
+    case productActionType.PRODUCT_CREATE_REVIEW_REQUEST:
+      return {
+        loading: true,
+      };
+
+    case productActionType.PRODUCT_CREATE_REVIEW_SUCCESS:
+      return {
+        loading: false,
+        success: true,
+      };
+    case productActionType.PRODUCT_CREATE_REVIEW_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+    case productActionType.PRODUCT_CREATE_REVIEW_RESET:
+      return {
+        product: {},
+      };
+
     default:
       return state;
   }

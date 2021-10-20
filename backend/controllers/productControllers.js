@@ -7,12 +7,21 @@ import Product from "../models/productModel.js";
 // @access public
 
 const getProducts = asyncHandler(async (req, res) => {
-  const product = await Product.find({});
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const product = await Product.find({ ...keyword });
 
   res.json(product);
 });
 
-// @desc fetch a single products
+// @desc fetch a single product
 // @route get /api/products/:id
 // @access public
 
@@ -28,8 +37,8 @@ const getProductByid = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc delete a single products
-// @route DELETE /api/products/:id
+// @desc delete a product
+// @route delet /api/products/:id
 // @access privet/admin
 
 const deleteProduct = asyncHandler(async (req, res) => {
@@ -45,27 +54,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc create a  product
-// @route POST /api/products
+// @desc Create a product
+// @route Post /api/products
 // @access privet/admin
-/*
-const createProduct = asyncHandler(async (req, res) => {
-  const product = new Product({
-    name: "sample product",
-    price: 0,
-    user: req.user._id,
-    image: "/images/sample.jpg",
-    brand: "sample brand",
-    category: "sample category",
-    description: "sample description",
-    numReviews: 0,
-    countInStock: 0,
-  });
 
-  const createtedProduct = await product.save();
-  res.status(201).json(createtedProduct);
-});
-*/
 const createProduct = asyncHandler(async (req, res) => {
   const product = new Product({
     name: "Sample name",
@@ -83,11 +75,9 @@ const createProduct = asyncHandler(async (req, res) => {
   res.status(201).json(createdProduct);
 });
 
-// @desc update a  product
-// @route PUT /api/products/:id
+// @desc UPDATE a product
+// @route put /api/products/:id
 // @access privet/admin
-
-/*
 
 const updateProduct = asyncHandler(async (req, res) => {
   const {
@@ -97,55 +87,75 @@ const updateProduct = asyncHandler(async (req, res) => {
     image,
     brand,
     category,
-    description,
     countInStock,
+    numReviews,
+    description,
   } = req.body;
-  const product = await Product.findById(req.params.id);
 
+  const product = await Product.findById(req.params.id);
   if (product) {
     product.name = name;
     product.price = price;
-    product.image = image;
-    product.brand = brand;
-    product.category = category;
-    product.description = description;
-    product.countInStock = countInStock;
 
-    const updatedProduct = await product.save();
-    res.json(updatedProduct);
-  } else {
-    res.status(404);
-    throw new Error("Product not found");
-  }
-});
-*/
-
-const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } =
-    req.body;
-
-  const product = await Product.findById(req.params.id);
-
-  if (product) {
-    product.name = name;
-    product.price = price;
-    product.description = description;
     product.image = image;
     product.brand = brand;
     product.category = category;
     product.countInStock = countInStock;
+    product.numReviews = numReviews;
+    product.description = description;
 
-    const updatedProduct = await product.save();
-    res.json(updatedProduct);
+    const updatededProduct = await product.save();
+    res.status(201).json(updatededProduct);
   } else {
     res.status(404);
-    throw new Error("Product not found");
+    throw new Error("product not found");
   }
 });
+
+// @desc Create new review
+// @route POST /api/products/:id/reviews
+// @access privet
+
+const createProductReview = asyncHandler(async (req, res) => {
+  const { rating, comment } = req.body;
+
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    const alreadyReviewed = product.reviews.find(
+      (r) => r.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyReviewed) {
+      res.status(400);
+      throw new Error("product already Reviewed");
+    }
+
+    const review = {
+      name: req.user.name,
+      rating: Number(rating),
+      comment,
+      user: req.user._id,
+    };
+
+    product.reviews.push(review);
+    product.numReviews = product.reviews.length;
+    product.rating =
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length;
+
+    await product.save();
+    res.status(201).json({ message: "review added" });
+  } else {
+    res.status(404);
+    throw new Error("product not found");
+  }
+});
+
 export {
   getProducts,
   getProductByid,
   deleteProduct,
   createProduct,
   updateProduct,
+  createProductReview,
 };

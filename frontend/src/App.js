@@ -14,7 +14,6 @@ import store from "./redux/store";
 import { Container } from "react-bootstrap";
 import HeaderComponent from "./components/Header";
 import Footer from "./components/Footer";
-import HomeScreen from "./screens/HomeScreen";
 
 import ProductScreen from "./screens/ProductScreen";
 import ProductListScreen from "./screens/ProductListScreen";
@@ -32,6 +31,8 @@ import UserEditScreen from "./screens/UserEditScreen";
 
 import OrderScreen from "./screens/orderScreen";
 import OrderListScreen from "./screens/orderListScreen";
+
+import HomeScreen from "./screens/HomeScreen";
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           <Route path='/login' component={LoginScreen} />
           <Route path='/product/:id' component={ProductScreen} />
           <Route path='/cart/:id?' component={CartScreen} />
+          <Route exact path='/search/:keyword' component={HomeScreen} />
           <Route exact path='/' component={HomeScreen} />
         </Container>
       </main>

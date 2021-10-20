@@ -2,26 +2,28 @@ import axios from "axios";
 
 import productActionType from "../reducers/product/productActionType";
 
-export const listProducts = () => async (dispatch) => {
-  try {
-    dispatch({ type: productActionType.PRODUCT_LIST_REQUEST });
+export const listProducts =
+  (keyword = "") =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: productActionType.PRODUCT_LIST_REQUEST });
 
-    const { data } = await axios.get("/api/products");
+      const { data } = await axios.get(`/api/products?keyword=${keyword}`);
 
-    dispatch({
-      type: productActionType.PRODUCT_LIST_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: productActionType.PRODUCT_LIST_FAIL,
-      payload:
-        error.response && error.response.data.massage
-          ? error.response.data.massage
-          : error.message,
-    });
-  }
-};
+      dispatch({
+        type: productActionType.PRODUCT_LIST_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: productActionType.PRODUCT_LIST_FAIL,
+        payload:
+          error.response && error.response.data.massage
+            ? error.response.data.massage
+            : error.message,
+      });
+    }
+  };
 
 export const listProductDetails = (id) => async (dispatch) => {
   try {
@@ -142,9 +144,6 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    // if (message === "Not authorized, token failed") {
-    //   dispatch(logout());
-    // }
 
     dispatch({
       type: productActionType.PRODUCT_UPDATE_FAIL,
@@ -152,3 +151,38 @@ export const updateProduct = (product) => async (dispatch, getState) => {
     });
   }
 };
+
+export const createProductReview =
+  (productId, review) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: productActionType.PRODUCT_CREATE_REVIEW_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      };
+
+      await axios.post(`/api/products/${productId}/reviews`, review, config);
+
+      dispatch({
+        type: productActionType.PRODUCT_CREATE_REVIEW_SUCCESS,
+      });
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message;
+
+      dispatch({
+        type: productActionType.PRODUCT_CREATE_REVIEW_FAIL,
+        payload: message,
+      });
+    }
+  };

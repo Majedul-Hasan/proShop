@@ -14,8 +14,11 @@ import products from "../products";
 //add product global
 */
 // const baseURL = "http://localhost:5000";
-const HomeScreen = () => {
+
+const HomeScreen = ({ match }) => {
   // const [products, setProducts] = useState([]);
+
+  const keyword = match.params.keyword;
 
   const dispatch = useDispatch();
   const prodList = useSelector((state) => state.productList);
@@ -36,8 +39,8 @@ const HomeScreen = () => {
       setProducts(response.data);
     });
     */
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
 
   return (
     <>

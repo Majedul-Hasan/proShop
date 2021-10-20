@@ -76,9 +76,7 @@ const orderSchema = new Schema(
       type: Date,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 const Order = Mongoose.model("Order", orderSchema);
