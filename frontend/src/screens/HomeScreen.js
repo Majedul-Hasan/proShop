@@ -1,12 +1,19 @@
 import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
+
 // import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { listProducts } from "../redux/actions/productsActions";
 
-import { Row } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import Product from "../components/Product";
 import ErrorAlerat from "../components/ErrorAlerat";
 import Loader from "../components/Loader";
+
+import Paginate from "../components/Paginate";
+import ProductCarousel from "../components/ProductCarousel";
+
+import Meta from "../components/Meta";
 
 /*
 //frontend product 
@@ -19,11 +26,12 @@ const HomeScreen = ({ match }) => {
   // const [products, setProducts] = useState([]);
 
   const keyword = match.params.keyword;
+  const pageNumber = match.params.pageNumber || 1;
 
   const dispatch = useDispatch();
   const prodList = useSelector((state) => state.productList);
 
-  const { loading, error, products } = prodList;
+  const { loading, error, products, pages, page } = prodList;
 
   useEffect(() => {
     /*
@@ -39,23 +47,40 @@ const HomeScreen = ({ match }) => {
       setProducts(response.data);
     });
     */
-    dispatch(listProducts(keyword));
-  }, [dispatch, keyword]);
+    dispatch(listProducts(keyword, pageNumber));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
+      <Meta />
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to='/' className='btn btn-light'>
+          Go Back
+        </Link>
+      )}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <ErrorAlerat variant='danger'>{error}</ErrorAlerat>
       ) : (
-        <Row sm={1} md={2} lg={3} xl={4}>
-          {products.map((product) => (
-            //  <h3>{product.name}</h3>
-            <Product product={product} />
-          ))}
-        </Row>
+        <>
+          <Row>
+            {products.map((product) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />{" "}
+              </Col>
+              //  <h3>{product.name}</h3>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ""}
+          />
+        </>
       )}
     </>
   );

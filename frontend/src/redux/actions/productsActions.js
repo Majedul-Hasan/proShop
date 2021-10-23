@@ -3,12 +3,14 @@ import axios from "axios";
 import productActionType from "../reducers/product/productActionType";
 
 export const listProducts =
-  (keyword = "") =>
+  (keyword = "", pageNumber = "") =>
   async (dispatch) => {
     try {
       dispatch({ type: productActionType.PRODUCT_LIST_REQUEST });
 
-      const { data } = await axios.get(`/api/products?keyword=${keyword}`);
+      const { data } = await axios.get(
+        `/api/products?keyword=${keyword}&pageNumber=${pageNumber}`
+      );
 
       dispatch({
         type: productActionType.PRODUCT_LIST_SUCCESS,
@@ -186,3 +188,24 @@ export const createProductReview =
       });
     }
   };
+
+export const listTopProducts = () => async (dispatch) => {
+  try {
+    dispatch({ type: productActionType.PRODUCT_TOP_REQUEST });
+
+    const { data } = await axios.get(`/api/products/top`);
+
+    dispatch({
+      type: productActionType.PRODUCT_TOP_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: productActionType.PRODUCT_TOP_FAIL,
+      payload:
+        error.response && error.response.data.massage
+          ? error.response.data.massage
+          : error.message,
+    });
+  }
+};
