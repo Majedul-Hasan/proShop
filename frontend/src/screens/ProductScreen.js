@@ -49,10 +49,12 @@ const ProductScreen = ({ history, match }) => {
     error: errorProductReview,
   } = productReviewCreate;
 
-  // const { image, name, rating, numReviews } = product;
+  const addDecimals = (num) => {
+    return (Math.round(num * 100) / 100).toFixed(2);
+  };
 
-  // const [product, setProduct] = useState({});
-  // const product = product.find((p) => p._id === match.params.id);
+  product.rating = addDecimals(Number(product.rating).toFixed(2));
+
   useEffect(() => {
     /*
     // console.log(`${baseURL}/api/products`);

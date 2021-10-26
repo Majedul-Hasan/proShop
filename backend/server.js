@@ -41,10 +41,6 @@ connectDB();
 
 app.use(express.json()); //this allows json to the body
 
-app.get("/", (req, res) => {
-  res.send("api is running...");
-});
-
 // api rought
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -64,6 +60,18 @@ const __dirname = path.resolve();
 // app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
 
 app.use("/uploads", express.static(path.join(__dirname, "/uploads")));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("api is running...");
+  });
+}
 
 // paypal integration
 

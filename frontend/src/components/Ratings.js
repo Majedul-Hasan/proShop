@@ -61,14 +61,14 @@ const Ratings = ({ ratingValue, text, color }) => {
       </span>
       <span className='px-2'>
         {" "}
-        {ratingValue} {text && text}
+        {ratingValue} {text ? text : ""}
       </span>
     </div>
   );
 };
 
 Ratings.defaultProps = {
-  color: "#f8e825",
+  color: "#e8861f",
 };
 
 Ratings.prototype = {
