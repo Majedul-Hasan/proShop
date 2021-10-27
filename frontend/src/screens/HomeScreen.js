@@ -32,6 +32,7 @@ const HomeScreen = ({ match }) => {
   const prodList = useSelector((state) => state.productList);
 
   const { loading, error, products, pages, page } = prodList;
+  const width = window.innerWidth >= 768;
 
   useEffect(() => {
     /*
@@ -47,14 +48,15 @@ const HomeScreen = ({ match }) => {
       setProducts(response.data);
     });
     */
+
     dispatch(listProducts(keyword, pageNumber));
-  }, [dispatch, keyword, pageNumber]);
+  }, [dispatch, keyword, pageNumber, width]);
 
   return (
     <>
       <Meta />
       {!keyword ? (
-        <ProductCarousel />
+        <>{width && <ProductCarousel />}</>
       ) : (
         <Link to='/' className='btn btn-light'>
           Go Back
